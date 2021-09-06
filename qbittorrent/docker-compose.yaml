@@ -16,8 +16,8 @@ services:
       - 6881:6881
       - 6881:6881/udp
     volumes:
-      - ./config:/config
-      - /media/eduzen/storage/media-center/downloads:/downloads
+      - /media/eduzen/storage/media-center/configs/qb:/config:z
+      - /media/eduzen/storage/media-center/downloads:/downloads:z
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qb.rule=Host(`qb.eduzen.duckdns.org`)"

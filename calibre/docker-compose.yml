@@ -11,7 +11,7 @@ services:
       # - PASSWORD= #optional
       # - CLI_ARGS= #optional
     volumes:
-      - ./config/calibre:/config
+      - ./configs/calibre:/config
       - ./library:/library
       - ./tmp:/tmp
     ports:

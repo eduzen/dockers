@@ -16,7 +16,7 @@ services:
       - 6881:6881
       - 6881:6881/udp
     volumes:
-      - ./config:/config
+      - ./configs/filmer:/config
       - /media/eduzen/storage/media-center/downloads:/downloads
     labels:
       - "traefik.enable=true"
