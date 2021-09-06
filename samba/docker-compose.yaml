@@ -9,17 +9,16 @@ services:
       command: -u "${USER};${PASS}" -w "lan" -s "sambita;/share/data;yes;yes" -W -S -p
       stdin_open: true
       tty: true
+      read_only: true
       environment:
          - TZ=${TZ}
          - PUID=${PUID}
          - PGID=${PGID}
       volumes:
          - /media/eduzen/storage:/share/data:z
+         - /media/eduzen/storage/tmp:/tmp:z
       ports:
          - "137:137/udp"
          - "138:138/udp"
          - "139:139/tcp"
          - "445:445/tcp"
-      read_only: true
-      tmpfs:
-          - /media/eduzen/storage/tmp:/tmp
