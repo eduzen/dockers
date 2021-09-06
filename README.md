@@ -1,2 +1,2 @@
 # dockers
-collection of docker-compose things 
+collection of docker-compose things
