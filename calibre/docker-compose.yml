@@ -29,7 +29,7 @@ services:
       - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
     volumes:
-      - ./config/web/:/config
+      - ./configs/web/:/config
       - ./library:/books
     ports:
       - 8083:8083

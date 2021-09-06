@@ -11,7 +11,7 @@ services:
          # RPi 4
          - /dev/vchiq:/dev/vchiq
       volumes:
-         - /media/eduzen/storage/media-center/config/jellyfin-rpi4:/config
+         - /media/eduzen/storage/media-center/configs/jellyfin-rpi4:/config
          - /media/eduzen/storage/media-center/downloads/completed/music:/music:z
          - /media/eduzen/storage/media-center/downloads/completed/movies:/movies:z
          - /media/eduzen/storage/media-center/downloads/completed/tv:/tv:z

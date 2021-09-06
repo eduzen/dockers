@@ -27,4 +27,4 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./certificates:/letsencrypt
+      - /media/eduzen/storage/media-center/certificates:/letsencrypt

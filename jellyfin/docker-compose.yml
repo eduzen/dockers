@@ -24,7 +24,7 @@ services:
          - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
          - JELLYFIN_PublishedServerUrl=jelly.eduzen.duckdns.org
       volumes:
-         - ./config/jellyfin:/config
+         - ./configs/jellyfin:/config
          - ${DOWNLOADS}:/data:z
          - ${MOVIES}:/movies:z
          - ${TV}:/tv:z

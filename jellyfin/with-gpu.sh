@@ -4,7 +4,7 @@ exec docker run --rm \
  --gpus all \
  --runtime=nvidia \
  --name jellyfin \
- -v ${HOME}/Docker/jellyfin/config/jellyfin:/config \
+ -v ${HOME}/Docker/jellyfin/configs/jellyfin:/config \
  -v /media/eduzen/sambita/media-center/downloads/:/data:z \
  -v /media/eduzen/sambita/media-center/downloads/completed/movies:/movies:z \
  -v /media/eduzen/sambita/media-center/downloads/completed/tv:/tv:z \
