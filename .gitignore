@@ -1,0 +1,9 @@
+config/
+tmp/
+temp/
+certificates/
+
+calibre/library
+
+.env
+env

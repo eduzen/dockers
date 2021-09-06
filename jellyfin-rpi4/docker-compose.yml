@@ -1,0 +1,52 @@
+version: '2.3'
+
+services:
+   jellyfin:
+      image: ghcr.io/linuxserver/jellyfin:latest
+      restart: unless-stopped
+      stdin_open: true
+      tty: true
+      runtime: nvidia
+      devices:
+         # RPi 4
+         - /dev/vchiq:/dev/vchiq
+      volumes:
+         - /media/eduzen/storage/media-center/config/jellyfin-rpi4:/config
+         - /media/eduzen/storage/media-center/downloads/completed/music:/music:z
+         - /media/eduzen/storage/media-center/downloads/completed/movies:/movies:z
+         - /media/eduzen/storage/media-center/downloads/completed/tv:/tv:z
+      ports:
+         - 8096:8096
+         - 8920:8920 #optional
+         - 7359:7359/udp #optional
+         - 1900:1900/udp #optional
+      labels:
+         - "traefik.enable=true"
+         - "traefik.http.routers.jellyfin-rpi4.rule=Host(`jrpi4.eduzen.duckdns.org`)"
+         - "traefik.http.routers.jellyfin-rpi4.entrypoints=websecure"
+         - "traefik.http.routers.jellyfin-rpi4.tls.certresolver=myresolver"
+         - "traefik.http.routers.jellyfin-rpi4.middlewares=jellyfin-mw-rpi4"
+         - "traefik.http.services.jellyfin-rpi4.loadbalancer.server.port=8096"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLRedirect=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLForceHost=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSSeconds=315360000"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSIncludeSubdomains=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSPreload=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.forceSTSHeader=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.frameDeny=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.contentTypeNosniff=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.browserXSSFilter=true"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customFrameOptionsValue='allow-from https://jrpi4.eduzen.duckdns.org'"
+      networks:
+         - traefik_default
+      environment:
+         - TZ=Europe/Amsterdam
+         - PUID=1000
+         - PGID=1000
+         - UMASK=022
+         - JELLYFIN_PublishedServerUrl=jrpi4.eduzen.duckdns.org
+
+networks:
+  traefik_default:
+    external: true

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  samba:
+      image: dperson/samba:aarch64
+      container_name: samba
+      restart: unless-stopped
+      command: -u "${USER};${PASS}" -w "lan" -s "sambita;/share/data;yes;yes" -W -S -p
+      stdin_open: true
+      tty: true
+      environment:
+         - TZ=${TZ}
+         - PUID=${PUID}
+         - PGID=${PGID}
+      volumes:
+         - /media/eduzen/storage:/share/data:z
+      ports:
+         - "137:137/udp"
+         - "138:138/udp"
+         - "139:139/tcp"
+         - "445:445/tcp"
+      read_only: true
+      tmpfs:
+          - /media/eduzen/storage/tmp:/tmp

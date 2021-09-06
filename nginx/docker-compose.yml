@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.20.1-alpine
+    restart: unless-stopped
+    expose:
+      - "80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - NGINX_HOST=jelly.eduzen.duckdns.org
+      - NGINX_PORT=80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.rule=Host(`jelly.eduzen.duckdns.org`)"
+      - "traefik.http.routers.nginx.entrypoints=websecure"
+      - "traefik.http.routers.nginx.tls.certresolver=myresolver"
+      - "traefik.http.routers.nginx.middlewares=nginx-mw"
+      - "traefik.http.services.nginx.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
+      - "traefik.http.middlewares.jellyfin-mw.headers.SSLRedirect=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.SSLForceHost=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.STSSeconds=315360000"
+      - "traefik.http.middlewares.jellyfin-mw.headers.STSIncludeSubdomains=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.STSPreload=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.frameDeny=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true"
+      - "traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://jelly.eduzen.duckdns.org'"
+    networks:
+      - traefik_default
+
+networks:
+  traefik_default:
+    external: true

@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  calibre:
+    image: ghcr.io/linuxserver/calibre:version-v5.25.0
+    container_name: calibre
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      # - PASSWORD= #optional
+      # - CLI_ARGS= #optional
+    volumes:
+      - ./config/calibre:/config
+      - ./library:/library
+      - ./tmp:/tmp
+    ports:
+      # - 53:53/udp
+      - 8080:8080
+      - 8081:8081
+
+  calibre-web:
+    image: ghcr.io/linuxserver/calibre-web
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+    volumes:
+      - ./config/web/:/config
+      - ./library:/books
+    ports:
+      - 8083:8083
+    restart: unless-stopped
