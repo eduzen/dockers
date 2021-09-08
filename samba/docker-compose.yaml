@@ -3,22 +3,22 @@ version: '3.9'
 services:
 
   samba:
-      image: dperson/samba:aarch64
+      image: dperson/samba
       container_name: samba
       restart: unless-stopped
       command: -u "${USER};${PASS}" -w "lan" -s "sambita;/share/data;yes;yes" -W -S -p
       stdin_open: true
       tty: true
+      read_only: true
       environment:
          - TZ=${TZ}
          - PUID=${PUID}
          - PGID=${PGID}
       volumes:
          - ${STORAGE}:/share/data:z
-         - ${TMP}:/tmp
+         - ${TMP}:/tmp:z
       ports:
          - "137:137/udp"
          - "138:138/udp"
          - "139:139/tcp"
          - "445:445/tcp"
-      read_only: true
