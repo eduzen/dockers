@@ -9,8 +9,8 @@ exec docker run --rm \
  -v /media/eduzen/sambita/media-center/downloads/completed/movies:/movies:z \
  -v /media/eduzen/sambita/media-center/downloads/completed/tv:/tv:z \
  -e TZ=${TZ} \
- -e PUID=${UID} \
- -e PGID=${GID} \
+ -e PUID=${PUID} \
+ -e PGID=${PGID} \
  -e UMASK=${UMASK} \
  -e NVIDIA_DRIVER_CAPABILITIES=all \
  -e NVIDIA_VISIBLE_DEVICES=all \

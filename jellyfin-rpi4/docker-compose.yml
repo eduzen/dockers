@@ -40,8 +40,8 @@ services:
          - traefik_default
       environment:
          - TZ=${TZ}
-         - PUID=${UID}
-         - PGID=${GID}
+         - PUID=${PUID}
+         - PGID=${PGID}
          - UMASK=${UMASK}
          - JELLYFIN_PublishedServerUrl=jrpi4.${DOMAIN}
 

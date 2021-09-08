@@ -5,8 +5,8 @@ services:
     image: ghcr.io/linuxserver/qbittorrent:unstable-version-4.4.0202106140855-7320-2bd5aca3aubuntu20.04.1
     restart: unless-stopped
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       - UMASK=${UMASK}
       - WEBUI_PORT=80

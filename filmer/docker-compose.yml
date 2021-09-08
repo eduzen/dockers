@@ -5,8 +5,8 @@ services:
     image: eduzen/filmer:latest
     restart: unless-stopped
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       - UMASK=${UMASK}
       - WEBUI_PORT=80

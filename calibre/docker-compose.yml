@@ -5,8 +5,8 @@ services:
     container_name: calibre
     restart: unless-stopped
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       # - PASSWORD= #optional
       # - CLI_ARGS= #optional
@@ -23,8 +23,8 @@ services:
     image: ghcr.io/linuxserver/calibre-web
     container_name: calibre-web
     environment:
-      - PUID=${UID}
-      - PGID=${GID}
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=${TZ}
       - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional

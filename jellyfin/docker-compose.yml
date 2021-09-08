@@ -17,8 +17,8 @@ services:
          - 1900:1900/udp #optional
       environment:
          - TZ=${TZ}
-         - PUID=${UID}
-         - PGID=${GID}
+         - PUID=${PUID}
+         - PGID=${PGID}
          - UMASK=${UMASK}
          - NVIDIA_VISIBLE_DEVICES=all
          - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
