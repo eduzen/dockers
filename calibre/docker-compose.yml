@@ -5,15 +5,15 @@ services:
     container_name: calibre
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
       # - PASSWORD= #optional
       # - CLI_ARGS= #optional
     volumes:
-      - ./configs/calibre:/config
-      - ./library:/library
-      - ./tmp:/tmp
+      - ${CONFIGS}/calibre/:/config
+      - ${CONFIGS}/library:/books
+      - ${TMP}:/tmp
     ports:
       # - 53:53/udp
       - 8080:8080
@@ -23,14 +23,14 @@ services:
     image: ghcr.io/linuxserver/calibre-web
     container_name: calibre-web
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=${TZ}
       - DOCKER_MODS=linuxserver/calibre-web:calibre #optional
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
     volumes:
-      - ./configs/web/:/config
-      - ./library:/books
+      - ${CONFIGS}/calibre/web/:/config
+      - ${CONFIGS}/library:/books
     ports:
       - 8083:8083
     restart: unless-stopped

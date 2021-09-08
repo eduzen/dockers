@@ -8,13 +8,13 @@ exec docker run --rm \
  -v /media/eduzen/sambita/media-center/downloads/:/data:z \
  -v /media/eduzen/sambita/media-center/downloads/completed/movies:/movies:z \
  -v /media/eduzen/sambita/media-center/downloads/completed/tv:/tv:z \
- -e TZ=Europe/Amsterdam \
- -e PUID=1000 \
- -e PGID=1000 \
- -e UMASK=022 \
+ -e TZ=${TZ} \
+ -e PUID=${UID} \
+ -e PGID=${GID} \
+ -e UMASK=${UMASK} \
  -e NVIDIA_DRIVER_CAPABILITIES=all \
  -e NVIDIA_VISIBLE_DEVICES=all \
- -e JELLYFIN_PublishedServerUrl=jelly.eduzen.duckdns.org \
+ -e JELLYFIN_PublishedServerUrl=jelly.${DOMAIN} \
  -p 8096:8096 \
  -p 8920:8920 \
  -p 7359:7359/udp \

@@ -16,15 +16,15 @@ services:
          - 7359:7359/udp #optional
          - 1900:1900/udp #optional
       environment:
-         - TZ=Europe/Amsterdam
-         - PUID=1000
-         - PGID=1000
-         - UMASK=022
+         - TZ=${TZ}
+         - PUID=${UID}
+         - PGID=${GID}
+         - UMASK=${UMASK}
          - NVIDIA_VISIBLE_DEVICES=all
          - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-         - JELLYFIN_PublishedServerUrl=jelly.eduzen.duckdns.org
+         - JELLYFIN_PublishedServerUrl=jelly.${DOMAIN}
       volumes:
-         - ./configs/jellyfin:/config
+         - ${CONFIGS}/jellyfin:/config
          - ${DOWNLOADS}:/data:z
          - ${MOVIES}:/movies:z
          - ${TV}:/tv:z

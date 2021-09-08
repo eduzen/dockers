@@ -10,19 +10,21 @@ services:
          # RPi 4
          - /dev/vchiq:/dev/vchiq
       volumes:
-         - /media/eduzen/storage/media-center/configs/jellyfin-rpi4:/config
-         - /media/eduzen/storage/media-center/downloads/completed/music:/music:z
-         - /media/eduzen/storage/media-center/downloads/completed/movies:/movies:z
-         - /media/eduzen/storage/media-center/downloads/completed/tv:/tv:z
+         - ${CONFIGS}/jellyfin-rpi4:/config
+         - ${MUSIC}:/music:z
+         - ${MOVIES}:/movies:z
+         - ${TV}:/tv:z
       expose:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jellyfin-rpi4.rule=Host(`jrpi4.eduzen.duckdns.org`)"
-         - "traefik.http.routers.jellyfin-rpi4.entrypoints=websecure"
-         - "traefik.http.routers.jellyfin-rpi4.tls.certresolver=myresolver"
-         - "traefik.http.routers.jellyfin-rpi4.middlewares=jellyfin-mw-rpi4"
-         - "traefik.http.services.jellyfin-rpi4.loadbalancer.server.port=8096"
+         - "traefik.http.routers.jrpi4.rule=Host(`jrpi4.${DOMAIN}`)"
+         - "traefik.http.routers.jrpi4.entrypoints=websecure"
+         - "traefik.http.routers.jrpi4.tls.certresolver=myresolver"
+         - "traefik.http.services.jrpi4.loadbalancer.server.port=8096"
+         - "traefik.jrpi4.headers.contentTypeNosniff=true"
+         - "traefik.jrpi4.headers.forceSTSHeader=true"
+         - "traefik.jrpi4.headers.browserXSSFilter=true"
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLRedirect=true"
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLForceHost=true"
@@ -33,15 +35,15 @@ services:
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.frameDeny=true"
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.contentTypeNosniff=true"
          - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.browserXSSFilter=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customFrameOptionsValue='allow-from https://jrpi4.eduzen.duckdns.org'"
+         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customFrameOptionsValue='allow-from https://jrpi4.${DOMAIN}'"
       networks:
          - traefik_default
       environment:
-         - TZ=Europe/Amsterdam
-         - PUID=1000
-         - PGID=1000
-         - UMASK=022
-         - JELLYFIN_PublishedServerUrl=jrpi4.eduzen.duckdns.org
+         - TZ=${TZ}
+         - PUID=${UID}
+         - PGID=${GID}
+         - UMASK=${UMASK}
+         - JELLYFIN_PublishedServerUrl=jrpi4.${DOMAIN}
 
 networks:
   traefik_default:

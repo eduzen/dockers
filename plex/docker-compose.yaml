@@ -14,17 +14,17 @@ services:
     expose:
       - 32400
     volumes:
-      - /media/eduzen/sambita/media-center/configs/plex:/config
-      - /media/eduzen/sambita/media-center/tmp/plex:/transcode
-      - /media/eduzen/storage/media-center/downloads/completed/movies:/movies:z
-      - /media/eduzen/storage/media-center/downloads/completed/tv:/tv:z
-      - /media/eduzen/storage/media-center/downloads/completed/music:/music:z
-      - /media/eduzen/storage/media-center/downloads:/downloads:z
+      - ${CONFIGS}/plex:/config
+      - ${TMP}/plex:/transcode
+      - ${MOVIES}:/movies:z
+      - ${TV}:/tv:z
+      - ${MUSIC}:/music:z
+      - ${DOWNLOADS}/downloads:z
     networks:
       - traefik_default
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.plex.rule=Host(`plex.eduzen.duckdns.org`)"
+      - "traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)"
       - "traefik.http.routers.plex.entrypoints=websecure"
       - "traefik.http.routers.plex.tls.certresolver=myresolver"
       - "traefik.plex.headers.contentTypeNosniff=true"
