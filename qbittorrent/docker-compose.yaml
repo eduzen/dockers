@@ -17,7 +17,7 @@ services:
       - 6881:6881/udp
     volumes:
       - ${CONFIGS}/qb:/config:z
-      - ${DOWNLOADS}/downloads:z
+      - ${DOWNLOADS}:/downloads:z
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.qb.rule=Host(`qb.${DOMAIN}`)"
