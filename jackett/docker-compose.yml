@@ -3,13 +3,15 @@ version: "3.9"
 services:
   jackett:
     image: linuxserver/jackett
+    restart: unless-stopped
     volumes:
       - ${CONFIGS}/jackett:/config
-      - ${DOWNLOADS}/blackhole:/downloads
+      - ${DOWNLOADS}:/downloads
     ports:
       - 9117:9117
-  environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    - UMASK=${UMASK}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK=${UMASK}
+      - AUTO_UPDATE=true
