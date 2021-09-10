@@ -1,17 +1,18 @@
-version: "3.9"
+version: '3'
 
 services:
+
   jackett:
     image: linuxserver/jackett
     restart: unless-stopped
+    ports:
+      - 9117:9117
     volumes:
       - ${CONFIGS}/jackett:/config
       - ${DOWNLOADS}:/downloads
-    ports:
-      - 9117:9117
     environment:
+      - TZ=${TZ}
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ}
       - UMASK=${UMASK}
       - AUTO_UPDATE=true
