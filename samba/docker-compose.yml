@@ -6,7 +6,8 @@ services:
       image: dperson/samba
       container_name: samba
       restart: unless-stopped
-      command: -u "${USER};${SAMBAPASS}" -w "lan" -s "sambita;/share/data;yes;no;yes" -W -S 
+      command: '-s "completed;/completed;yes;no;no" -u "${USER};${SAMBAPASS}" -w "lan" -p'
+      # command: '-s "downloads;/downloads" -s "completed;/completed;yes;no;no" -u "${USER};${SAMBAPASS}" -w "lan" -p'
       stdin_open: true
       tty: true
       read_only: true
@@ -15,7 +16,8 @@ services:
          - PUID=${PUID}
          - PGID=${PGID}
       volumes:
-         - ${STORAGE}:/share/data:z
+          # - ${DOWNLOADS}:/downloads:z
+         - ${COMPLETED}:/completed:z
          - ${TMP}:/tmp:z
       ports:
          - "137:137/udp"
