@@ -6,7 +6,7 @@ services:
       image: dperson/samba
       container_name: samba
       restart: unless-stopped
-      command: -u "${USER};${SAMBAPASS}" -w "lan" -s "sambita;/share/data;yes;yes" -W -S -p
+      command: -u "${USER};${SAMBAPASS}" -w "lan" -s "sambita;/share/data;yes;no;yes" -W -S 
       stdin_open: true
       tty: true
       read_only: true

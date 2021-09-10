@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     # Enables the web UI and tells Traefik to listen to docker
     command:
-      - "--api.insecure=true"
+      #  "--api.insecure=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
@@ -28,4 +28,4 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      - /media/eduzen/storage/media-center/certificates:/letsencrypt
+      - ./certificates:/letsencrypt
