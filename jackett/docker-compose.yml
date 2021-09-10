@@ -16,3 +16,9 @@ services:
       - PGID=${PGID}
       - UMASK=${UMASK}
       - AUTO_UPDATE=true
+    networks:
+      - traefik_default
+
+networks:
+  traefik_default:
+    external: true

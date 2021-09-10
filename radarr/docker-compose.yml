@@ -16,3 +16,9 @@ services:
       - ${DOWNLOADS}:/downloads
     ports:
       - 7878:7878
+    networks:
+      - traefik_default
+
+networks:
+  traefik_default:
+    external: true
