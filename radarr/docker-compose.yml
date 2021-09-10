@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  radarr:
+    image: linuxserver/radarr:latest
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+    volumes:
+      - ${CONFIGS}/radarr:/config
+      - ${MOVIES}:/movies
+      - ${DOWNLOADS}:/downloads
+    links:
+      - qbittorrent
+      - jackett
+    ports:
+      - 7878:7878
