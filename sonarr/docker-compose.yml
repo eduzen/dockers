@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+  sonarr:
+    image: linuxserver/sonarr:develop-version-3.0.6.1305
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+      - ${DOWNLOADS}:/downloads
+      - ${TV}:/tv
+    ports:
+      - 8989:8989
