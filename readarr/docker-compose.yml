@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   readarr:
-    image: ghcr.io/linuxserver/readarr:latest
+    image: linuxserver/readarr:nightly
     restart: unless-stopped
     environment:
       - TZ=${TZ}
