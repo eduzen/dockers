@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
 
-  sonarr:
-    image: linuxserver/sonarr:develop-version-3.0.6.1305
+  readarr:
+    image: ghcr.io/linuxserver/readarr:latest
     restart: unless-stopped
     environment:
       - TZ=${TZ}
@@ -12,7 +12,8 @@ services:
       - UMASK=${UMASK}
     volumes:
       - ./config:/config
-      - ${DOWNLOADS}:/downloads
-      - ${TV}:/tv
+      - ${BOOKS}:/books:z
+      - ${DOWNLOADS}:/downloads:z
     ports:
-      - 8989:8989
+      - 8787:8787
+
