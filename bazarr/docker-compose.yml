@@ -13,14 +13,8 @@ services:
       - PGID=${PGID}
       - UMASK=${UMASK}
     volumes:
-      - ${CONFIGS}/bazarr:/config
+      - ./config:/config
       - ${MOVIES}:/movies
       - ${TV}:/tv
     ports:
       - 6767:6767
-    networks:
-      - traefik_default
-
-networks:
-  traefik_default:
-    external: true
