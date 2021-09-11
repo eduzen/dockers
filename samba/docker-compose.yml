@@ -6,7 +6,7 @@ services:
       image: dperson/samba
       container_name: samba
       restart: unless-stopped
-      command: '-s "completed;/completed;yes;no;no" -u "${USER};${SAMBAPASS}" -w "lan" -p'
+      command: '-s "completed;/completed;yes;no;no" -s "blackhole;blackhole;yes;no;yes" -u "${USER};${SAMBAPASS}" -w "lan" -p'
       # command: '-s "downloads;/downloads" -s "completed;/completed;yes;no;no" -u "${USER};${SAMBAPASS}" -w "lan" -p'
       stdin_open: true
       tty: true
@@ -16,7 +16,7 @@ services:
          - PUID=${PUID}
          - PGID=${PGID}
       volumes:
-          # - ${DOWNLOADS}:/downloads:z
+         - ${DOWNLOADS}/blackhole:/blackhole:z
          - ${COMPLETED}:/completed:z
          - ${TMP}:/tmp:z
       ports:
