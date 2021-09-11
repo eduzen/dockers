@@ -8,17 +8,11 @@ services:
     ports:
       - 9117:9117
     volumes:
-      - ${CONFIGS}/jackett:/config
-      - ${DOWNLOADS}:/downloads
+      - ./config/jackett:/config
+      - ${DOWNLOADS}/blackhole:/downloads:z
     environment:
       - TZ=${TZ}
       - PUID=${PUID}
       - PGID=${PGID}
       - UMASK=${UMASK}
       - AUTO_UPDATE=true
-    networks:
-      - traefik_default
-
-networks:
-  traefik_default:
-    external: true
