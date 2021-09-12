@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex:latest
+    restart: unless-stopped
+    privileged: true
+    tty: true
+    devices:
+       # RPi 4
+       - /dev/vchiq:/dev/vchiq
+    expose:
+      - 32400
+    volumes:
+      - ./config:/config
+      - ${MOVIES}:/movies
+      - ${TV}:/tv
+      - ${MUSIC}:/music
+    labels:
+       - "traefik.enable=true"
+       - "traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)"
+       - "traefik.http.routers.plex.entrypoints=websecure"
+       - "traefik.http.routers.plex.tls.certresolver=myresolver"
+       - "traefik.http.services.plex.loadbalancer.server.port=32400"
+       - "traefik.plex.headers.contentTypeNosniff=true"
+       - "traefik.plex.headers.forceSTSHeader=true"
+       - "traefik.plex.headers.browserXSSFilter=true"
+       - "traefik.http.middlewares.plex-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
+       - "traefik.http.middlewares.plex-mw.headers.SSLRedirect=true"
+       - "traefik.http.middlewares.plex-mw.headers.SSLForceHost=true"
+       - "traefik.http.middlewares.plex-mw.headers.STSSeconds=315360000"
+       - "traefik.http.middlewares.plex-mw.headers.STSIncludeSubdomains=true"
+       - "traefik.http.middlewares.plex-mw.headers.STSPreload=true"
+       - "traefik.http.middlewares.plex-mw.headers.forceSTSHeader=true"
+       - "traefik.http.middlewares.plex-mw.headers.frameDeny=true"
+       - "traefik.http.middlewares.plex-mw.headers.contentTypeNosniff=true"
+       - "traefik.http.middlewares.plex-mw.headers.browserXSSFilter=true"
+       - "traefik.http.middlewares.plex-mw.headers.customFrameOptionsValue='allow-from https://plex.${DOMAIN}'"
+    networks:
+       - traefik_default
+    environment:
+       - version=docker
+       - TZ=${TZ}
+       - PUID=${PUID}
+       - PGID=${PGID}
+       - UMASK=${UMASK}
+
+networks:
+  traefik_default:
+    external: true

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   qbittorrent:
-    image: ghcr.io/linuxserver/qbittorrent:unstable-version-4.4.0202106140855-7320-2bd5aca3aubuntu20.04.1
+    image: ghcr.io/linuxserver/qbittorrent:latest
     restart: unless-stopped
     environment:
       - PUID=${PUID}
