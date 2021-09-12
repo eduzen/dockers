@@ -16,7 +16,7 @@ services:
       - 6881:6881
       - 6881:6881/udp
     volumes:
-      - ${CONFIGS}/qb:/config:z
+      - ./config:/config/qBittorrent:z
       - ${DOWNLOADS}:/downloads:z
     labels:
       - "traefik.enable=true"

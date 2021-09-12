@@ -1,9 +1,8 @@
-version: "3.8"
+version: "3.9"
 
 services:
-
-  sonarr:
-    image: linuxserver/sonarr:develop-version-3.0.6.1305
+   medusa:
+    image: ghcr.io/linuxserver/medusa
     restart: unless-stopped
     environment:
       - TZ=${TZ}
@@ -15,7 +14,7 @@ services:
       - ${DOWNLOADS}:/downloads
       - ${TV}:/tv
     ports:
-      - 8989:8989
+      - 8081:8081
     networks:
       - traefik_default
 
