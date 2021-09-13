@@ -5,17 +5,30 @@ services:
     image: ghcr.io/linuxserver/plex:latest
     restart: unless-stopped
     privileged: true
+    # network_mode: host
     tty: true
     devices:
        # RPi 4
        - /dev/vchiq:/dev/vchiq
+       - "/dev/dri:/dev/dri"
     expose:
-      - 32400
+       - 32400
+    ports:
+       - 32400:32400/tcp
+       - 32400:32400/udp
+       - 3005:3005/tcp
+       - 8324:8324/tcp
+       - 32469:32469/tcp
+       - 1900:1900/udp
+       - 32410:32410/udp
+       - 32412:32412/udp
+       - 32413:32413/udp
+       - 32414:32414/udp
     volumes:
-      - ./config:/config
-      - ${MOVIES}:/movies
-      - ${TV}:/tv
-      - ${MUSIC}:/music
+       - ./config:/config
+       - ${MOVIES}:/movies
+       - ${TV}:/tv
+       - ${MUSIC}:/music
     labels:
        - "traefik.enable=true"
        - "traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)"
@@ -44,6 +57,7 @@ services:
        - PUID=${PUID}
        - PGID=${PGID}
        - UMASK=${UMASK}
+       - ADVERTISE_IP="https://plex.eduzen.duckdns.org:443"
 
 networks:
   traefik_default:
