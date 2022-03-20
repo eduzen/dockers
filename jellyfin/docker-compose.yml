@@ -1,14 +1,18 @@
-version: '2.3'
+version: '3.9'
 
 services:
 
    jellyfin:
-      image: ghcr.io/linuxserver/jellyfin:latest
+      image: jellyfin/jellyfin:latest
       restart: unless-stopped
       stdin_open: true
       tty: true
-      runtime: nvidia
+      user: 1001:1001
+      group_add:
+         - 1001
+         - 122
       devices:
+         # VAAPI Devices (examples)
          - "/dev/dri:/dev/dri"
       ports:
          - 8096:8096
@@ -17,12 +21,7 @@ services:
          - 1900:1900/udp #optional
       environment:
          - TZ=${TZ}
-         - PUID=${PUID}
-         - PGID=${PGID}
-         - UMASK=${UMASK}
-         - NVIDIA_VISIBLE_DEVICES=all
-         - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
-         - JELLYFIN_PublishedServerUrl=jelly.${DOMAIN}
+         - JELLYFIN_PublishedServerUrl=t480.local
       volumes:
          - ${CONFIGS}/jellyfin:/config
          - ${DOWNLOADS}:/data:z
