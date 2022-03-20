@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   sonarr:
-    image: linuxserver/sonarr:develop-version-3.0.6.1305
+    image: linuxserver/sonarr:latest
     restart: unless-stopped
     environment:
       - TZ=${TZ}
