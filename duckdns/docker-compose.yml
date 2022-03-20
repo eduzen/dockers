@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   duckdns:
-    image: ghcr.io/linuxserver/duckdn:latest
+    image: ghcr.io/linuxserver/duckdns
     container_name: duckdns
     restart: unless-stopped
     environment:

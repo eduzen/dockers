@@ -1,0 +1,12 @@
+version: "3"
+services:
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns:latest
+    container_name: ddclient
+    environment:
+      - API_KEY=${CLOUDFLARE_API_KEY}
+      - ZONE=eduzen.ar
+      - SUBDOMAIN=tv
+    volumes:
+      - ${CONFIGS}/cloudflare-ddns/:/config
+    restart: unless-stopped
