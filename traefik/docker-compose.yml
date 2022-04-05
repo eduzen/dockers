@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  reverse-proxy:
+  traefik:
     # The official v2 Traefik docker image
-    image: traefik:v2.5
+    image: traefik:latest
     restart: unless-stopped
     # Enables the web UI and tells Traefik to listen to docker
     command:
@@ -11,18 +11,18 @@ services:
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=${EMAIL}"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+        #- "--entrypoints.websecure.address=:443"
+        #- "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+        #- "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+        #- "--certificatesresolvers.myresolver.acme.email=${EMAIL}"
+        #- "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       # - "--log.level=DEBUG"
       - "--accesslog"
       # - "--log"
     ports:
       # The HTTP port
       - "80:80"
-      - "443:443"
+      # - "443:443"
       # The Web UI (enabled by --api.insecure=true)
       # - "8080:8080"
     volumes:

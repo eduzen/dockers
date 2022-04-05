@@ -20,27 +20,11 @@ services:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jrpi4.rule=Host(`jelly.t480.local`) || Host(`tv.eduzen.ar`)"
-         - "traefik.http.routers.jrpi4.entrypoints=websecure"
-         - "traefik.http.routers.jrpi4.tls.certresolver=myresolver"
-         - "traefik.http.services.jrpi4.loadbalancer.server.port=8096"
-         - "traefik.jrpi4.headers.contentTypeNosniff=true"
-         - "traefik.jrpi4.headers.forceSTSHeader=true"
-         - "traefik.jrpi4.headers.browserXSSFilter=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLRedirect=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.SSLForceHost=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSSeconds=315360000"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSIncludeSubdomains=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.STSPreload=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.forceSTSHeader=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.frameDeny=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.contentTypeNosniff=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.browserXSSFilter=true"
-         - "traefik.http.middlewares.jellyfin-mw-rpi4.headers.customFrameOptionsValue='allow-from https://jelly.t480.local'"
+         - "traefik.http.routers.jelly.rule=Host(`jelly.t480.local`)"
+         - "traefik.http.services.jelly.loadbalancer.server.port=8096"
       environment:
          - TZ=${TZ}
-         - JELLYFIN_PublishedServerUrl=t480.local
+         - JELLYFIN_PublishedServerUrl=jelly.t480.local
       volumes:
          - ${CONFIGS}/jellyfin:/config
          - ${DOWNLOADS}:/data:z
