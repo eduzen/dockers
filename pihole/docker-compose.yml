@@ -17,10 +17,10 @@ services:
     # Volumes store your data between container upgrades
     volumes:
       - '.config/etc-pihole:/etc/pihole'
-      - '.config/etc-dnsmasq.d:/etc/dnsmasq.d'    
+      - '.config/etc-dnsmasq.d:/etc/dnsmasq.d'
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
-      - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
+      - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)
     restart: unless-stopped
 
   watchtower:
