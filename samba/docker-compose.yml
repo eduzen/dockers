@@ -6,19 +6,17 @@ services:
       image: dperson/samba
       container_name: samba
       restart: unless-stopped
-      command: '-s "completed;/completed;yes;no;no" -s "blackhole;blackhole;yes;no;yes" -u "${USER};${SAMBAPASS}" -w "lan" -p'
-      # command: '-s "downloads;/downloads" -s "completed;/completed;yes;no;no" -u "${USER};${SAMBAPASS}" -w "lan" -p'
+      command: '-s "storage;/storage/;yes;no;no" -u "eduzen;h0l4nd4!" -w "lan" -p'
       stdin_open: true
       tty: true
       read_only: true
       environment:
-         - TZ=${TZ}
-         - PUID=${PUID}
-         - PGID=${PGID}
+         - TZ=Europe/Amsterdam
+         - PUID=1001
+         - PGID=1001
       volumes:
-         - ${DOWNLOADS}/blackhole:/blackhole:z
-         - ${COMPLETED}:/completed:z
-         - ${TMP}:/tmp:z
+          - "/home/eduzen/storage:/storage:ro"
+          - /tmp:/tmp
       ports:
          - "137:137/udp"
          - "138:138/udp"

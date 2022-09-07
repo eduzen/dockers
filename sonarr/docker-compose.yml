@@ -13,6 +13,8 @@ services:
       - ./config:/config
       - ${DOWNLOADS}:/downloads
       - ${TV}:/tv
+    ports:
+      - 8989:8989
     expose:
       - 8989
     labels:
