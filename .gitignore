@@ -1,5 +1,6 @@
 config/
 configs/
+.config/
 tmp/
 temp/
 certificates/
@@ -7,4 +8,6 @@ certificates/
 calibre/library
 
 .env
+pihole/.env
 env
+.python-version

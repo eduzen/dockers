@@ -144,12 +144,12 @@ fi
 script_logo() {
   cat << "EOF"
 
-  _______________ ___  _________  .___                 __         .__  .__   
-  \_   _____/    |   \/   _____/  |   | ____   _______/  |______  |  | |  |  
-   |    __)_|    |   /\_____  \   |   |/    \ /  ___/\   __\__  \ |  | |  |  
+  _______________ ___  _________  .___                 __         .__  .__
+  \_   _____/    |   \/   _____/  |   | ____   _______/  |______  |  | |  |
+   |    __)_|    |   /\_____  \   |   |/    \ /  ___/\   __\__  \ |  | |  |
    |        \    |  / /        \  |   |   |  \\___ \  |  |  / __ \|  |_|  |__
   /_______  /______/ /_______  /  |___|___|  /____  > |__| (____  /____/____/
-          \/                 \/            \/     \/            \/           
+          \/                 \/            \/     \/            \/
 
 EOF
 }
@@ -176,7 +176,7 @@ help_script() {
   echo -e "
   Script usage:
   bash ${script_name} [options]
-  
+
   Script options:
     --skip                                  Skip any kind of manual input.
     --skip-install-haveged                  Skip installation of haveged.
@@ -525,7 +525,7 @@ if [[ -n "${unifi_package}" ]]; then
     header_red
     echo -e "${RED}#${RESET} You have a broken UniFi Network Application installation...\\n\\n${WHITE}#${RESET} Removing the broken UniFi Network Application installation..."
     if dpkg --remove --force-remove-reinstreq unifi &>> "${eus_dir}/logs/broken_unifi.log"; then echo -e "${GREEN}#${RESET} Successfully removed the broken UniFi Network Application installation!"; else echo -e "${RED}#${RESET} Failed to remove the broken UniFi Network Application installation!"; fi
-    sleep 3  
+    sleep 3
   fi
 fi
 

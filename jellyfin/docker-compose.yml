@@ -7,10 +7,6 @@ services:
       restart: unless-stopped
       stdin_open: true
       tty: true
-      user: 1001:1001
-      group_add:
-         - 1001
-         - 122
       devices:
          # VAAPI Devices (examples)
          - "/dev/dri:/dev/dri"
@@ -20,11 +16,11 @@ services:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jelly.rule=Host(`jelly.t480.local`)"
+         - "traefik.http.routers.jelly.rule=Host(`jelly.um700.local`)"
          - "traefik.http.services.jelly.loadbalancer.server.port=8096"
       environment:
          - TZ=${TZ}
-         - JELLYFIN_PublishedServerUrl=jelly.t480.local
+         - JELLYFIN_PublishedServerUrl=jelly.um700.local
       volumes:
          - ./config:/config
          - ${DOWNLOADS}:/data:z
