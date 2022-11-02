@@ -25,7 +25,7 @@ services:
       WEB_PORT: 80
       DHCP_rapid_commit: "true"
       PIHOLE_UID: "${PUID}"
-      PIHOLE_GID: "${GID}"
+      PIHOLE_GID: "${PGID}"
     # Volumes store your data between container upgrades
     volumes:
       - '.config/etc-pihole:/etc/pihole'

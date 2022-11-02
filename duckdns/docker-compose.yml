@@ -10,7 +10,7 @@ services:
       - SUBDOMAINS=${DUCKDNS}
       - TOKEN=${TOKEN}
       - PUID=${PUID}
-      - PGID=${GPID}
+      - PGID=${PGID}
       - LOG_FILE=true
     volumes:
       - ./config:/config

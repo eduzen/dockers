@@ -16,11 +16,11 @@ services:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jelly.rule=Host(`jelly.um700.local`)"
+         - "traefik.http.routers.jelly.rule=Host(`jelly.huis`)"
          - "traefik.http.services.jelly.loadbalancer.server.port=8096"
       environment:
          - TZ=${TZ}
-         - JELLYFIN_PublishedServerUrl=jelly.um700.local
+         - JELLYFIN_PublishedServerUrl=jelly.huis
       volumes:
          - ./config:/config
          - ${DOWNLOADS}:/data:z

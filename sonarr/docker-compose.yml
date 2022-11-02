@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     environment:
       - TZ=${TZ}
-      - PUID=1001
-      - PGID=1001
+      - PUID=${PUID}
+      - PGID=${PGID}
       - UMASK=${UMASK}
     volumes:
       - ./config:/config
@@ -19,7 +19,7 @@ services:
       - 8989
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sonarr.rule=Host(`sonarr.t480.local`)"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.huis`)"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
     networks:
       - traefik_default

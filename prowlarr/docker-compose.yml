@@ -1,17 +1,12 @@
 version: "3.9"
 
-networks:
-  traefik_default:
-    external: true
-
 services:
-
   prowlarr:
-    image: ghcr.io/linuxserver/prowlarr:develop
-    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:develop
+    # image: ghcr.io/linuxserver/prowlarr:develop
     restart: unless-stopped
-    expose:
-      - 9696
+    ports:
+      - 9696:9696
     volumes:
       - ./config/prowlarr:/config
       - ${DOWNLOADS}/blackhole:/downloads:z
@@ -20,9 +15,3 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - UMASK=${UMASK}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${SERVICE}.rule=Host(`${SERVICE}.um700.local`)"
-      - "traefik.http.services.${SERVICE}.loadbalancer.server.port=9696"
-    networks:
-      - traefik_default
