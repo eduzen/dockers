@@ -8,5 +8,5 @@ services:
       - ZONE=eduzen.ar
       - SUBDOMAIN=tv
     volumes:
-      - ${CONFIGS}/cloudflare-ddns/:/config
+      - ./config/:/config
     restart: unless-stopped

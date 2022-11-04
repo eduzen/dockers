@@ -16,7 +16,7 @@ services:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jelly.rule=Host(`jelly.huis`)"
+         - "traefik.http.routers.jelly.rule=Host(`jelly.huis`)) || Host(`tv.eduzen.ar`)"
          - "traefik.http.services.jelly.loadbalancer.server.port=8096"
       environment:
          - TZ=${TZ}
@@ -29,4 +29,4 @@ services:
 
 networks:
   traefik_default:
-    external: true
+     external: true
