@@ -1,16 +1,26 @@
-version: "2.1"
+version: "3"
 
 services:
   unifi-controller:
     image: lscr.io/linuxserver/unifi-controller:latest
     container_name: unifi-controller
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
     network_mode: host
     environment:
       - TZ=${TZ}
       - PUID=$PUID
       - PGID=$PGID
-      - MEM_LIMIT=1024M #optional
-      - MEM_STARTUP=1024M #optional
+      - MEM_LIMIT=2024 #optional
+      - MEM_STARTUP=1024 #optional
     volumes:
       - .config/:/config
+    ports:
+      - 8080:8080
+      - 8443:8443
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 1900:1900/udp #optional
+      - 6789:6789 #optional
+      - 5514:5514/udp #optional
