@@ -11,3 +11,4 @@ calibre/library
 pihole/.env
 env
 .python-version
+radarr/mysecretpassword
