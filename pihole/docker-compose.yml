@@ -1,14 +1,25 @@
 #https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
 version: "3"
 
+networks:
+  traefik_default:
+    external: true
+
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
     image: pihole/pihole:latest
     restart: unless-stopped
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
-    network_mode: "host"
-    # Volumes store your data between container upgrades
+    # network_mode: "host"
+    ports:
+      - "192.168.1.7:53:53/tcp"
+      - "192.168.1.7:53:53/udp"
+      - "853:853"
+      - "8002:80"
+    dns:
+      - 127.0.0.1
+      - 9.9.9.9
     volumes:
       - '.config/etc-pihole:/etc/pihole'
       - '.config/etc-dnsmasq.d:/etc/dnsmasq.d'

@@ -36,12 +36,7 @@ services:
          - JELLYFIN_PublishedServerUrl=jelly.huis
       volumes:
          - ./config:/config
-         #- /home/eduzen/Videos/Movies:/media/movies
-         - /media/eduzen/seagate/media-center/movies:/media/movies:z
-         # - /home/eduzen/Videos/Series:/series
-         # - ${DOWNLOADS}:/data:z
-         # - ${MOVIES}:/movies:z
-         # - ${TV}:/tv:z
+         - /home/eduzen/mounts/:/media:z
 
 networks:
   traefik_default:
