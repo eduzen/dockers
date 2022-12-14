@@ -1,4 +1,8 @@
-version: "3.8"
+version: "3.9"
+
+networks:
+  traefik_default:
+    external: true
 
 services:
   sonarr:
@@ -10,11 +14,8 @@ services:
       - PGID=${PGID}
       - UMASK=${UMASK}
     volumes:
-      - ./config:/config
-      - ${DOWNLOADS}:/downloads
-      - ${TV}:/tv
-    ports:
-      - 8989:8989
+      - ./configs/radarr:/config
+      - /home/eduzen/mounts/storage/media-center:/media-center:z
     expose:
       - 8989
     labels:
@@ -24,6 +25,47 @@ services:
     networks:
       - traefik_default
 
-networks:
-  traefik_default:
-    external: true
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK=${UMASK}
+      - PASS=${QBPASSWORD}
+      # - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+      - USER=admin #optional
+    volumes:
+      - ./configs/transmission:/config
+      - /home/eduzen/mounts/storage/media-center/downloads:/downloads:z
+    ports:
+      - 51413:51413
+      - 51413:51413/udp
+    expose:
+      - "9091"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trans.rule=Host(`torrent.series.huis`)"
+      - "traefik.http.services.trans.loadbalancer.server.port=9091"
+    networks:
+      - traefik_default
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    restart: unless-stopped
+    expose:
+      - 9696
+    volumes:
+      - ./configs/prowlarr:/config
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.p.rule=Host(`prowlarr.series.huis`)"
+      - "traefik.http.services.p.loadbalancer.server.port=9696"
+    networks:
+      - traefik_default

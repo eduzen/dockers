@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
 
@@ -7,25 +7,36 @@ services:
       restart: unless-stopped
       stdin_open: true
       tty: true
+      group_add: # by id as these may not exist within the container. Needed to provide permissions to the VAAPI Devices
+         - "107" #render
+         - "44" #video
       devices:
          # VAAPI Devices (examples)
          - "/dev/dri:/dev/dri"
+         - "/dev/dri/renderD128:/dev/dri/renderD128"
       networks:
          - traefik_default
       expose:
          - 8096
       labels:
          - "traefik.enable=true"
-         - "traefik.http.routers.jelly.rule=Host(`jelly.huis`)) || Host(`tv.eduzen.ar`)"
+         - "traefik.web.headers.contentTypeNosniff=true"
+         - "traefik.web.headers.browserXSSFilter=true"
+         - "traefik.http.routers.jelly.rule=Host(`jelly.huis`) || Host(`tv.eduzen.ar`)"
+         - "traefik.http.routers.jelly.middlewares=jelly-mw"
+          # - "traefik.http.routers.jelly.service=noop@internal"
          - "traefik.http.services.jelly.loadbalancer.server.port=8096"
+         - "traefik.http.services.jelly.loadBalancer.passHostHeader=true"
+         - "traefik.http.middlewares.jelly-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex"
+         - "traefik.http.middlewares.jelly-mw.headers.frameDeny=true"
+         - "traefik.http.middlewares.jelly-mw.headers.contentTypeNosniff=true"
+         - "traefik.http.middlewares.jelly-mw.headers.browserXSSFilter=true"
       environment:
          - TZ=${TZ}
          - JELLYFIN_PublishedServerUrl=jelly.huis
       volumes:
          - ./config:/config
-         - ${DOWNLOADS}:/data:z
-         - ${MOVIES}:/movies:z
-         - ${TV}:/tv:z
+         - /home/eduzen/mounts/:/media:z
 
 networks:
   traefik_default:

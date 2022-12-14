@@ -5,20 +5,21 @@ services:
   # It can manage and download subtitles based on your requirements.
   # You define your preferences by TV show or movie and Bazarr takes care of everything for you.
   bazarr:
-    image: linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:latest
     restart: unless-stopped
     environment:
       - TZ=Europe/Amsterdam
-      - PUID=1001
-      - PGID=1001
-      - UMASK=022
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
     volumes:
       - ./config:/config
+      - ${DOWNLOADS}:/downloads
       - ${MOVIES}:/movies
       - ${TV}:/tv
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bazarr.rule=Host(`bazarr.t480.local`)"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.huis`)"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
     expose:
       - 6767

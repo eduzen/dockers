@@ -7,6 +7,8 @@ services:
       - API_KEY=${CLOUDFLARE_API_KEY}
       - ZONE=eduzen.ar
       - SUBDOMAIN=tv
+      - PROXIED=true
+      - CRON="@daily"
     volumes:
       - ./config/:/config
     restart: unless-stopped

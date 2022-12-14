@@ -1,6 +1,10 @@
 #https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
 version: "3"
 
+networks:
+  traefik_default:
+    external: true
+
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
@@ -13,6 +17,11 @@ services:
       - "192.168.1.22:53:53/udp"
       # - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "8002:80/tcp"
+      - "853:853"
+      - "8002:80"
+    dns:
+      - 127.0.0.1
+      - 9.9.9.9
     # Volumes store your data between container upgrades
     volumes:
       - './config/etc-pihole:/etc/pihole'
