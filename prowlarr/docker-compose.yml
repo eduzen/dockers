@@ -1,15 +1,11 @@
 version: "3.9"
 
-networks:
-  traefik_default:
-    external: true
-
 services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
     restart: unless-stopped
-    expose:
-      - 9696
+    ports:
+      - 9696:9696
     volumes:
       - ./config:/config
     environment:
@@ -17,9 +13,3 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - UMASK=${UMASK}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.huis`)"
-      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
-    networks:
-      - traefik_default

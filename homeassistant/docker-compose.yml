@@ -7,13 +7,18 @@ services:
     restart: unless-stopped
     container_name: homeassistant
     network_mode: host
+    privileged: true
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Amsterdam
     volumes:
       - ./config:/config
+      - /run/udev:/run/udev:ro
     ports:
       - 8123:8123 #optional
-    # devices:
-      #- /path/to/device:/path/to/device #optional
+      - 9898:9898
+      - 4321:4321
+    devices:
+      - /dev/ttyACM0 # Conbee2
+
