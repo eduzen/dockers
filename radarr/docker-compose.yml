@@ -38,6 +38,8 @@ services:
     expose:
       - "80"
     ports:
+      - 48072:48072
+      - 48072:48072/udp
       - 6882:6881
       - 6882:6881/udp
     volumes:
@@ -47,24 +49,5 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.qbmovies.rule=Host(`qb.movies.huis`)"
       - "traefik.http.services.qbmovies.loadbalancer.server.port=80"
-    networks:
-      - traefik_default
-
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:develop
-    restart: unless-stopped
-    expose:
-      - 9696
-    volumes:
-      - ./configs/prowlarr:/config
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK=${UMASK}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.movies.huis`)"
-      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
     networks:
       - traefik_default

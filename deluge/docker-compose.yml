@@ -1,0 +1,29 @@
+version: "3.9"
+
+networks:
+  traefik_default:
+    external: true
+
+services:
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+      - DELUGE_LOGLEVEL=error #optional
+    ports:
+      - 8112:8112
+      - 6888:6881
+      - 6888:6881/udp
+    volumes:
+      - ./config:/config:z
+      - ${DOWNLOADS}:/downloads:z
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qb.rule=Host(`qb.huis`)||Host(`torrent.huis`)"
+      - "traefik.http.services.qb.loadbalancer.server.port=80"
+    networks:
+      - traefik_default

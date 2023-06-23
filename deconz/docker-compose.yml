@@ -2,9 +2,9 @@ version: "3"
 
 services:
   deconz:
-    image: deconzcommunity/deconz
+    image: deconzcommunity/deconz:2.19.03
     container_name: deconz
-    privileged: true 
+    privileged: true
     restart: always
     ports:
       - 1800:1800
@@ -17,11 +17,11 @@ services:
       - TZ=Europe/Amsterdam
       - DECONZ_WEB_PORT=1800
       - DECONZ_WS_PORT=1443
-      - DEBUG_INFO=1
+      - DEBUG_INFO=0
       - DEBUG_APS=0
       - DEBUG_ZCL=0
       - DEBUG_ZDP=0
       - DEBUG_OTA=0
       - DEBUG_HTTP=0
       - DECONZ_DEVICE=/dev/ttyACM0   # This is the USB device that Conbee II is running on.
-      - DECONZ_START_VERBOSE=1
+      - DECONZ_START_VERBOSE=0

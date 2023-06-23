@@ -14,9 +14,8 @@ services:
       - UMASK=${UMASK}
     volumes:
       - ./config:/config
-      - ${DOWNLOADS}:/downloads
-      - ${MOVIES}:/movies
-      - ${TV}:/tv
+      - /home/eduzen/mounts/seagate/media-center/movies:/movies:z
+      - /home/eduzen/mounts/storage/media-center/series:/tv:z
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.huis`)"

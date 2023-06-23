@@ -1,49 +1,27 @@
-#https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
 version: "3"
-
-networks:
-  traefik_default:
-    external: true
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
+    container_name: pihole
     image: pihole/pihole:latest
-    restart: unless-stopped
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
-    # network_mode: "host"
     ports:
-      - "192.168.1.22:53:53/tcp"
-      - "192.168.1.22:53:53/udp"
-      # - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "8002:80/tcp"
-      - "853:853"
-      - "8002:80"
-    dns:
-      - 127.0.0.1
-      - 9.9.9.9
-    # Volumes store your data between container upgrades
-    volumes:
-      - './config/etc-pihole:/etc/pihole'
-      - './config/etc-dnsmasq.d:/etc/dnsmasq.d'
-    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
-    cap_add:
-      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
     environment:
       TZ: 'Europe/Amsterdam'
       ServerIP: "192.168.1.22"
       WEBPASSWORD: "${PIHOLE_PASSWORD}"
+      WEBPORT: 8002
       PIHOLE_DNS_: "9.9.9.9;149.112.112.112;2620:fe::fe;2620:fe::9;1.1.1.1;1.0.0.1"
-      DHCP_LEASETIME: 24
-      DHCP_ACTIVE: "true"
-      DHCP_START: "192.168.1.6"
-      DHCP_END: "192.168.1.254"
-      DHCP_rapid_commit: "true"
-      DNSMASQ_LISTENING: 'all'
-      DNSSEC: "true"
-      REV_SERVER: "true"
-      REV_SERVER_DOMAIN: "local"
-      PIHOLE_DOMAIN: "local"
-      REV_SERVER_CIDR: "192.168.1.0/24"
-      DNSMASQ_USER: "root"
-      WEB_PORT: 8002
+    # Volumes store your data between container upgrades
+    volumes:
+      - './pihole:/etc/pihole'
+      - './dnsmasq.d:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+    restart: unless-stopped

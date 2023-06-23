@@ -25,47 +25,26 @@ services:
     networks:
       - traefik_default
 
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
     restart: unless-stopped
     environment:
       - PUID=${PUID}
-      - PGID=${PGID}
+      - PGID=${PUID}
       - TZ=${TZ}
       - UMASK=${UMASK}
-      - PASS=${QBPASSWORD}
-      # - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
-      - USER=admin #optional
-    volumes:
-      - ./configs/transmission:/config
-      - /home/eduzen/mounts/storage/media-center/downloads:/downloads:z
+      - DELUGE_LOGLEVEL=error #optional
     ports:
-      - 51413:51413
-      - 51413:51413/udp
-    expose:
-      - "9091"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.trans.rule=Host(`torrent.series.huis`)"
-      - "traefik.http.services.trans.loadbalancer.server.port=9091"
-    networks:
-      - traefik_default
-
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:develop
-    restart: unless-stopped
-    expose:
-      - 9696
+      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
     volumes:
-      - ./configs/prowlarr:/config
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK=${UMASK}
+      - ./configs/deluge:/config
+      - /home/eduzen/mounts/storage/media-center/downloads:/downloads:z
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.p.rule=Host(`prowlarr.series.huis`)"
-      - "traefik.http.services.p.loadbalancer.server.port=9696"
+      - "traefik.http.routers.qb.rule=Host(`deluge.huis`)||Host(`deluge.torrent.huis`)"
+      - "traefik.http.services.qb.loadbalancer.server.port=8112"
     networks:
       - traefik_default
