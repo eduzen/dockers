@@ -19,3 +19,4 @@ pihole/dnsmasq.d
 
 nginx-proxy-manager/data/
 nginx-proxy-manager/letsencrypt/
+wireguard/peer*
