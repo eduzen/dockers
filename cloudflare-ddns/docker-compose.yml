@@ -5,8 +5,7 @@ services:
     container_name: ddclient
     environment:
       - API_KEY=${CLOUDFLARE_API_KEY}
-      - ZONE=eduzen.ar
-      - SUBDOMAIN=tv
+      - ZONE=huis.win
       - PROXIED=true
       - CRON="@daily"
     volumes:

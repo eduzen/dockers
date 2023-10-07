@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   wireguard:
-    image: lscr.io/linuxserver/wireguard:1.0.20210914-alpine
+    image: lscr.io/linuxserver/wireguard:latest
     container_name: wireguard
     restart: unless-stopped
     # network_mode: "host"

@@ -16,3 +16,6 @@ backup
 
 pihole/pihole
 pihole/dnsmasq.d
+
+nginx-proxy-manager/data/
+nginx-proxy-manager/letsencrypt/
