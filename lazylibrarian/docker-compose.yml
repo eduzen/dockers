@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    restart: unless-stopped
+    container_name: lazylibrarian
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+      - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
+    volumes:
+      - ./config:/config
+      - ./downloads/:/downloads
+      - ./data/:/books #optional
+    expose:
+      - 5299
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.books.rule=Host(`books.huis.win`)"
+      - "traefik.http.services.books.loadbalancer.server.port=5299"
+    networks:
+      - traefik_default
+
+
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+      - TRANSMISSION_WEB_HOME= #optional
+      - USER=eduzen
+      - PASS=eduzen
+      #- WHITELIST= #optional
+      #- PEERPORT= #optional
+      #- HOST_WHITELIST= #optional
+    volumes:
+      - ./config:/config
+      - ./downloads:/downloads
+      - ./watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped

@@ -1,0 +1,95 @@
+version: '3'
+
+
+networks:
+  traefik_default:
+    external: true
+
+volumes:
+  grafana_data:
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    container_name: prometheus
+    expose:
+      - 9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.huis.win`)"
+      - "traefik.http.routers.prometheus.service=prometheus"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+    depends_on:
+      - cadvisor
+    networks:
+      - traefik_default
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    container_name: grafana
+    depends_on:
+     - prometheus
+    volumes:
+     - ./grafana/provisioning/:/etc/grafana/provisioning/
+     - grafana_data:/var/lib/grafana
+    expose:
+      - 3000
+    networks:
+      - traefik_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.huis.win`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    environment:
+      GF_SERVER_ROOT_URL: "http://grafana.huis.win/"
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-piechart-panel
+      GF_AUTH_ANONYMOUS_ENABLED: true
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+     - 8001:8080
+    expose:
+     - 8080
+    volumes:
+     - /:/rootfs:ro
+     - /var/run:/var/run:rw
+     - /sys:/sys:ro
+     - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+     - redis
+    networks:
+     - traefik_default
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.huis.win`)"
+     - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+    - 6379:6379

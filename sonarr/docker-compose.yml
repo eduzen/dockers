@@ -20,7 +20,7 @@ services:
       - 8989
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sonarr.rule=Host(`sonarr.huis`)"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.huis.win`)"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
     networks:
       - traefik_default
@@ -44,7 +44,7 @@ services:
       - /home/eduzen/mounts/storage/media-center/downloads:/downloads:z
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.qb.rule=Host(`deluge.huis`)||Host(`deluge.torrent.huis`)"
+      - "traefik.http.routers.qb.rule=Host(`deluge.huis.win`)"
       - "traefik.http.services.qb.loadbalancer.server.port=8112"
     networks:
       - traefik_default

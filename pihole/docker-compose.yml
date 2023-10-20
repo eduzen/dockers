@@ -4,6 +4,7 @@ version: "3"
 services:
   pihole:
     container_name: pihole
+    restart: unless-stopped
     image: pihole/pihole:latest
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
     ports:
@@ -13,10 +14,14 @@ services:
       - "8002:80/tcp"
     environment:
       TZ: 'Europe/Amsterdam'
-      ServerIP: "192.168.1.22"
+      ServerIP: "192.168.1.7"
       WEBPASSWORD: "${PIHOLE_PASSWORD}"
       WEBPORT: 8002
       PIHOLE_DNS_: "9.9.9.9;149.112.112.112;2620:fe::fe;2620:fe::9;1.1.1.1;1.0.0.1"
+      CONDITIONAL_FORWARDING: true
+      CONDITIONAL_FORWARDING_IP: "192.168.1.1" # Replace with the IP of your router or DHCP server.
+      CONDITIONAL_FORWARDING_DOMAIN: "local"
+      CONDITIONAL_FORWARDING_REVERSE: "1.168.192.in-addr.arpa"
     # Volumes store your data between container upgrades
     volumes:
       - './pihole:/etc/pihole'
@@ -24,4 +29,3 @@ services:
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
-    restart: unless-stopped

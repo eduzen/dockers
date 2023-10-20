@@ -7,25 +7,29 @@ services:
     restart: unless-stopped
     # Enables the web UI and tells Traefik to listen to docker
     command:
-      - "--api.insecure=false"
+      - "--api.insecure=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=${EMAIL}"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      # - "--log.level=DEBUG"
-        #- "--accesslog"
-        #- "--log"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5"
+      - "--experimental.plugins.statusdonrouters.modulename=github.com/MrNinso/statusdonrouters"
+      - "--experimental.plugins.statusdonrouters.version=v1.0.1"
+      - "--log.level=WARNING"
+      - "--accesslog"
+      - "--log"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.huis.win`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik-metrics.rule=Host(`traefik.huis.win`) && Path(`/metrics`)"
+      - "traefik.http.routers.traefik-metrics.service=prometheus@internal"
     ports:
       # The HTTP port
       - "80:80"
       - "443:443"
       # The Web UI (enabled by --api.insecure=true)
-      # - "8088:8080"
+      - "8088:8080"
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certificates:/letsencrypt

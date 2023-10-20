@@ -18,7 +18,7 @@ services:
       - /home/eduzen/mounts/storage/media-center/series:/tv:z
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bazarr.rule=Host(`bazarr.huis`)"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.huis.win`)"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
     expose:
       - 6767
