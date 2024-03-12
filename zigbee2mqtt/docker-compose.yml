@@ -25,4 +25,4 @@ services:
       - /dev/ttyACM0 # Conbee2
     ports:
       - 9090:9090
-    network_mode: host 
+    network_mode: host
