@@ -21,4 +21,3 @@ services:
       - 4321:4321
     devices:
       - /dev/ttyACM0 # Conbee2
-
